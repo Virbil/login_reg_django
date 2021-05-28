@@ -3,11 +3,9 @@ import datetime as dt
 import bcrypt
 
 class User_Manager(models.Manager):
-    def age_of_user(self, post_data):
-        birthday = dt.date(post_data["birthday"]).year
+    def age_of_user(self, birth_year):
         date_today = dt.date.today().year
-        age = date_today - birthday
-        print(f"Age of User: {age}, Year of Today's Date")
+        age = date_today - birth_year
         
         return int(age)
 
@@ -44,8 +42,8 @@ class User_Manager(models.Manager):
             date_entered = dt.datetime.strptime(post_data["birthday"], "%m/%d/%Y")
             if date_entered > dt.datetime.now():
                 errors["birthday"] = 'Birthday should be in the past'
-        # if User_Manager.age_of_user(self, post_data["birthday"]) < 13:
-        #     errors["birthday"] = "Must be 13 years or older to Register"
+            if self.age_of_user(date_entered.year) < 13:
+                errors["birthday"] = "Must be 13 years or older to Register"
 
         if len(post_data["password"]) < 8:
             errors["password"] = "Password must be at least 8 characters"
