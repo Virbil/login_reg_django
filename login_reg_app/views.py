@@ -62,3 +62,7 @@ def success(request):
         "user_info": User.objects.get(id=request.session["userid"])
     }
     return render(request, "success.html", context)
+
+def logout(request):
+    request.session.flush()
+    return redirect('/')

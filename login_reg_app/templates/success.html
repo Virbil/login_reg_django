@@ -24,7 +24,10 @@
     </div>
 
     <div class="container">
-        <a href="/" class="float-right">Log Out</a>
+        <form action='/logout' method="POST">    
+            {% csrf_token %}
+            <a href="/" class="float-right">Log Out</a>
+        </form>
     </div>
     <div class="container">
         <h1>Success! Welcome,  {{ user_info.first_name }}</h1>
