@@ -55,7 +55,7 @@ def reg_me(request):
             password = pw_hash
         )
 
-        return redirect('/success')
+        return redirect('/')
 
 def success(request):
     context = {
