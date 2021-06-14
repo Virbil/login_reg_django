@@ -61,13 +61,14 @@ def reg_me(request):
         return redirect('/')
 
 def email(request):
-    found = False
-    check_email = User.objects.filter(email=request.POST['email'])
-    if check_email:
-        found = True
-    context = {
-        "found": found
-    }
+    if request.method == "POST":
+        found = False
+        check_email = User.objects.filter(email=request.POST['email'])
+        if check_email:
+            found = True
+        context = {
+            "found": found
+        }
     return render(request, 'email-snippet.html', context)
 
 def success(request):
