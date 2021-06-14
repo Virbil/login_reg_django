@@ -23,6 +23,9 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
     
+    {% load static %}
+    <script src="{% static 'js/register.js' %}"></script>
+
     <title>Register</title>
 </head>
 
@@ -40,8 +43,11 @@
             {% endfor %}
         </ul>
         {% endif %}
+        <div class="input-group-prepend col-sm-2">
+            <div class="form-group row" id="email_Msg"></div>
+        </div>
 
-        <form class="form-register" action='/reg-me' method="POST" autocomplete="off">
+        <form class="form-register" id="reg_form" action='/reg-me' method="POST" autocomplete="off">
             {% csrf_token %}
             <div class="form-group row">
                 <div class="input-group-prepend col-sm-2">
@@ -92,7 +98,9 @@
                 </div>
             </div>
             <button class="btn btn-lg btn-primary register" type="submit">Register</button>
+            <button class="btn btn-lg btn-danger" type="submit"><a href="log-in" style="text-decoration: none; color: inherit;">Cancel</a></button>
         </form>
+
     </div>
 
     <script>

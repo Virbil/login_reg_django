@@ -23,8 +23,9 @@ def log_in(request):
                 logged_in_user = user[0]
                 if bcrypt.checkpw(request.POST["password"].encode(), logged_in_user.password.encode()):
                     request.session['userid'] = logged_in_user.id
+                    request.session['user'] = logged_in_user.first_name
 
-                    return redirect('/success')
+                    return redirect('/wall')
                 else:
                     print("Incorrect password")
         except:
@@ -47,7 +48,7 @@ def reg_me(request):
         password = request.POST['password']
         pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
 
-        User.objects.create(
+        new_user = User.objects.create(
             first_name = request.POST["first_name"],
             last_name = request.POST["last_name"],
             email = request.POST["email"],
@@ -55,7 +56,19 @@ def reg_me(request):
             password = pw_hash
         )
 
+        request.session["user"] = new_user.first_name
+        request.session["userid"] = new_user.id
         return redirect('/')
+
+def email(request):
+    found = False
+    check_email = User.objects.filter(email=request.POST['email'])
+    if check_email:
+        found = True
+    context = {
+        "found": found
+    }
+    return render(request, 'email-snippet.html', context)
 
 def success(request):
     context = {
